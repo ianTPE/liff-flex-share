@@ -4,6 +4,8 @@
 
 Turn Markdown or Flex JSON into LINE Flex Message cards and share them from a regular LINE account with LIFF `shareTargetPicker()`. No official account needed.
 
+📖 **圖文教學**：[從個人 LINE 發 Flex 卡片](https://iantpe.github.io/liff-flex-share/guide.html)，寫給不會寫程式的人，一步一步請 AI 幫你做好。
+
 ## 它能做什麼
 
 - **Markdown 轉卡片**：貼上 Markdown，自動排版成 Flex 卡片。支援粗體、斜體、行內程式碼、清單、表格、引用和分隔線，連結會變成卡片底部的按鈕。
@@ -29,6 +31,8 @@ Turn Markdown or Flex JSON into LINE Flex Message cards and share them from a re
 | `jev-proof.html` | 卡片底部按鈕連到的文章網頁版 |
 
 ## 自己架設
+
+不會寫程式的話，建議直接照[圖文教學](https://iantpe.github.io/liff-flex-share/guide.html)做，第 6 節有請 AI 複製這個工具的 prompt。自己動手的話：
 
 1. 在 LINE Developers 的 Provider 底下建立一個 **LINE Login channel**。Messaging API channel 不能掛 LIFF。
 2. 在該 channel 的 LIFF 分頁新增小程式：
