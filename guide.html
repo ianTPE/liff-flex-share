@@ -161,7 +161,43 @@
   <p>不知道卡片可以長什麼樣子？LINE 有一個線上工具叫 <a href="https://developers.line.biz/flex-simulator/" target="_blank">Flex Message Simulator</a>，左上角 <strong>Showcase</strong> 有很多現成的卡片樣式（餐廳、收據、行程…）。看到喜歡的，可以截圖給 AI，說「幫我做成像這樣的卡片」。</p>
   <div class="box tip"><strong>💡 想讓卡片動起來</strong>卡片上的文字不能動，但圖片可以。準備一張會動的 PNG（APNG），跟 AI 說「圖片要播放動畫」即可。</div>
 
-  <h2 id="faq"><span class="n">6</span>會遇到的狀況</h2>
+  <h2 id="advanced"><span class="n">6</span>進階：不用改網頁，直接貼內容發卡片</h2>
+  <p>第 5 步的做法，每換一次卡片都要請 AI 改網頁，再等網頁更新。如果你常常要發不同的卡片，可以改用 <a href="https://github.com/ianTPE/liff-flex-share" target="_blank">liff-flex-share</a>。它是一個現成的網頁：打開後把內容貼進去，按分享就能送出，不用再改程式。</p>
+  <table>
+    <thead><tr><th>你貼的內容</th><th>它會怎麼處理</th></tr></thead>
+    <tbody>
+      <tr><td>一般文字（Markdown）</td><td>自動排成卡片。粗體、清單、表格、引用都會保留，連結會變成卡片底部的按鈕</td></tr>
+      <tr><td>Flex JSON（以 <code>{</code> 開頭）</td><td>原樣送出。適合從 Flex Message Simulator 複製來、已經設計好的卡片</td></tr>
+    </tbody>
+  </table>
+  <p>貼上之後，畫面上會馬上顯示卡片預覽。格式有錯也會直接提示，不用等送出才發現。</p>
+
+  <h3>裝到自己的帳號</h3>
+  <p>我的入口還在開發中狀態，別人打不開，所以要複製一份到你自己的 GitHub。一樣交給 AI：把下面這段話貼給它，改掉括號裡的說明。</p>
+  <div class="codewrap"><button class="copy">複製</button><pre class="wrap"><code>請把 https://github.com/ianTPE/liff-flex-share 複製一份到我的 GitHub 帳號，做成公開（Public）的 repository。我不會寫程式，請你直接完成所有步驟。
+
+【我的 LIFF ID】：（貼上你的 LIFF ID）
+【我的 GitHub 帳號】：（貼上你的 GitHub 帳號名稱）
+
+1. 把 index.html 裡的 LIFF_ID 換成我的 LIFF ID。
+2. 開啟 GitHub Pages，來源選 main 分支的根目錄。
+3. 網站上線後告訴我網址，並提醒我到 LINE 後台，把 LIFF 的 Endpoint URL 改成這個新網址。
+4. 需要我登入 GitHub 或按同意時，請一步一步告訴我要按哪裡。</code></pre></div>
+  <p>AI 做完後，到 LINE 後台把 <strong>Endpoint URL</strong> 改成它給的新網址。<strong>LIFF ID 和入口網址都不用換</strong>，之後一樣從 <code>https://liff.line.me/你的 LIFF ID</code> 打開。</p>
+
+  <h3>試試看</h3>
+  <p>在 LINE 裡打開入口，把預設的示範內容清掉，貼上這段：</p>
+  <div class="codewrap"><button class="copy">複製</button><pre class="wrap"><code># 週末聚餐
+
+- **時間**：週六晚上 6:30
+- **地點**：信義區的餐廳
+- 有吃素的人先跟我說
+
+[看地圖](https://maps.google.com)</code></pre></div>
+  <p>按「分享卡片」、選好友、送出。對方會收到一張有標題、粗體和清單的卡片，底部有一個「看地圖」按鈕。</p>
+  <div class="box tip"><strong>💡 常發同一張卡片</strong>把卡片的 Flex JSON 存成 repository 裡的 <code>flex/名稱.json</code>，之後在入口網址後面加上 <code>?f=名稱</code>（例如 <code>https://liff.line.me/你的 LIFF ID?f=weekend</code>），就會直接載入這張卡片，不用每次重貼。名稱只能用英文小寫、數字和連字號。</div>
+
+  <h2 id="faq"><span class="n">7</span>會遇到的狀況</h2>
   <h3>按鈕為什麼只能開網址？</h3>
   <p>卡片是用你個人帳號送出的，對方按按鈕時，LINE 沒有一個「機器人」可以接收。所以凡是要傳資料回去給機器人的按鈕，都要改用官方帳號發卡片才行。能直接打開網頁的按鈕則沒有問題。</p>
   <table>
