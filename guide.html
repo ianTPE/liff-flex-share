@@ -139,7 +139,7 @@
 5. 需要我登入 GitHub 或按同意時，請一步一步告訴我要按哪裡。
 
 最後請用不懂程式的人也看得懂的話告訴我：以後想換卡片內容時，要怎麼跟你說。</code></pre></div>
-  <p>AI 做完會告訴你網址。用瀏覽器打開，看得到「選擇好友並送出」按鈕就成功了。用電腦打開時，頁面可能會要你登入或說無法分享，這是正常的，要到手機 LINE 裡才能用。</p>
+  <p>AI 做完會告訴你網址。用瀏覽器打開，看得到「選擇好友並送出」按鈕就成功了。用電腦打開時，頁面會先要你登入 LINE，這是正常的；登入後在電腦上也能直接分享（做法見<a href="#desktop">第 6 步的「在電腦上發」</a>）。</p>
   <p>如果你的 AI 只能聊天、沒辦法替你操作 GitHub，就直接問它：「你沒辦法幫我上傳的話，請一步一步教我怎麼自己放上 GitHub Pages。」</p>
 
   <h2 id="try"><span class="n">4</span>在手機 LINE 裡試發一次</h2>
@@ -197,6 +197,21 @@
   <p>按「分享卡片」、選好友、送出。對方會收到一張有標題、粗體和清單的卡片，底部有一個「看地圖」按鈕。</p>
   <div class="box tip"><strong>💡 常發同一張卡片</strong>把卡片的 Flex JSON 存成 repository 裡的 <code>flex/名稱.json</code>，之後在入口網址後面加上 <code>?f=名稱</code>（例如 <code>https://liff.line.me/你的 LIFF ID?f=weekend</code>），就會直接載入這張卡片，不用每次重貼。名稱只能用英文小寫、數字和連字號。</div>
 
+  <h3 id="desktop">在電腦上發，不用手機</h3>
+  <p>卡片如果是在電腦上請 AI 做的，不必再想辦法傳到手機。入口網址在電腦瀏覽器也能用：</p>
+  <ol>
+    <li>用電腦的 Chrome 打開 <code>https://liff.line.me/你的 LIFF ID</code>。</li>
+    <li>第一次會跳到 LINE 的登入畫面，用帳號密碼登入，或用手機 LINE 掃畫面上的 QR code。登入後會自動回到工具頁。</li>
+    <li>把 AI 給你的內容貼進去，看一下預覽。</li>
+    <li>按「分享卡片」，瀏覽器裡會跳出選好友的畫面，勾好、送出。對方收到的一樣是卡片本身。</li>
+  </ol>
+  <p>如果你用的是 Claude Code 這類能操作瀏覽器的 AI，連貼上都可以交給它。例如跟它說：</p>
+  <div class="codewrap"><button class="copy">複製</button><pre class="wrap"><code>請幫我做一張 Flex 卡片：標題「週四 AI 線上聚會」，內容寫時間是今晚 8 點，按鈕「加入會議」打開這個網址：（貼上會議連結）。
+
+做好後，請用 Chrome 打開 https://liff.line.me/（你的 LIFF ID），把卡片填進去，確認預覽沒有錯誤。選收件人和送出我自己來。</code></pre></div>
+  <p>AI 填好後，你只要按「分享卡片」、選群組、送出。</p>
+  <div class="box warn"><strong>⚠️ 選人和送出一定是你自己按</strong>LINE 的設計就是要本人確認收件人。不要請 AI 或排程程式自動按送出，這等於把個人帳號當機器人用，帳號可能會被限制。</div>
+
   <h2 id="faq"><span class="n">7</span>會遇到的狀況</h2>
   <h3>按鈕為什麼只能開網址？</h3>
   <p>卡片是用你個人帳號送出的，對方按按鈕時，LINE 沒有一個「機器人」可以接收。所以凡是要傳資料回去給機器人的按鈕，都要改用官方帳號發卡片才行。能直接打開網頁的按鈕則沒有問題。</p>
@@ -212,7 +227,7 @@
   <h3>其他常見狀況</h3>
   <table>
     <tr><th>你看到的</th><th>為什麼</th><th>怎麼辦</th></tr>
-    <tr><td>頁面說「無法分享」</td><td>Share target picker 沒開，或不是從 LINE 裡點開</td><td>檢查第 2 步的開關；確認是從 <code>liff.line.me/…</code> 網址點開</td></tr>
+    <tr><td>頁面說「無法分享」</td><td>Share target picker 沒開，或沒有登入 LINE</td><td>檢查第 2 步的開關；確認是從 <code>liff.line.me/…</code> 網址打開，用電腦時要先完成 LINE 登入</td></tr>
     <tr><td>頁面說 LIFF 初始化失敗</td><td>網頁裡的 LIFF ID 填錯，或第 2 步填的網址和 AI 建好的網址不一樣</td><td>對照第 2 步的 LIFF ID 和 Endpoint URL；網址不一樣時，把 Endpoint URL 改成 AI 給的網址</td></tr>
     <tr><td>別人打不開我的入口</td><td>剛建好的 channel 處於「開發中」（Developing），只有你自己和你加的測試人員能打開</td><td>在 channel 頁面上方改成 Published，或在 Roles 分頁把對方加成測試人員。<strong>收卡片的人不受影響</strong>，卡片誰都看得到</td></tr>
     <tr><td>按送出後跳出錯誤</td><td>卡片內容有地方不符合 LINE 的格式</td><td>把畫面上的錯誤訊息整段貼給 AI，請它修正</td></tr>
@@ -224,6 +239,7 @@
 
   <h3>可以一次發給很多人嗎？</h3>
   <p>可以在選人畫面一次勾好幾個人或群組。但每一次都要你自己打開、勾選、按送出，沒辦法讓程式在背後自動一直發。需要自動發送，就要改用官方帳號，而官方帳號主動發訊息是要算錢的。</p>
+  <p>官方帳號的免費額度是照「收到的人數」算的，發到一個 100 人的群組，一次就用掉 100 則。有個省額度的方法：機器人<strong>「回覆」</strong>群裡某則訊息時不算額度，而且回覆也能送 Flex 卡片。所以可以設計成「有人在群裡打關鍵字，機器人就回覆通知卡片」。把這句話轉給幫你做機器人的人，他就知道要怎麼改。</p>
 
   <h3>這個方法以後還能用嗎？</h3>
   <p>LINE 在 2025 年公告，建議新做的 LIFF 改成「LINE MINI App」，兩者會慢慢整合。目前用 LINE Login channel 建的 LIFF 仍然正常運作。</p>
@@ -231,7 +247,7 @@
   <h2 id="next">接下來可以這樣做</h2>
   <p>建議第一次<strong>先不改卡片</strong>，只把 LIFF ID 和 GitHub 帳號填進去，讓 AI 做出範例卡片，發給一位家人或朋友。確定整條路走得通，再請 AI 換成你自己的卡片。這樣萬一出問題，比較容易分辨是設定沒做好，還是卡片內容有問題。這是建議的練習順序，不是必要步驟。</p>
 </article>
-<p class="foot">參考：<a href="https://developers.line.biz/en/docs/liff/" target="_blank">LIFF 官方文件</a>・<a href="https://developers.line.biz/en/reference/liff/#share-target-picker" target="_blank">shareTargetPicker API</a>・<a href="https://developers.line.biz/flex-simulator/" target="_blank">Flex Message Simulator</a><br>版本 2026-09-30f</p>
+<p class="foot">參考：<a href="https://developers.line.biz/en/docs/liff/" target="_blank">LIFF 官方文件</a>・<a href="https://developers.line.biz/en/reference/liff/#share-target-picker" target="_blank">shareTargetPicker API</a>・<a href="https://developers.line.biz/flex-simulator/" target="_blank">Flex Message Simulator</a><br>版本 2026-11-12</p>
 </main>
 <script>
   document.querySelectorAll(".copy").forEach((b) => b.addEventListener("click", async () => {

@@ -12,13 +12,26 @@ Turn Markdown or Flex JSON into LINE Flex Message cards and share them from a re
 - **Flex JSON 模式**：內容以 `{` 開頭就原樣送出，可以填完整訊息（`type: flex`），也可以只填一張 bubble 或 carousel。
 - **預設卡片**：網址加上 `?f=名稱`，會載入 `flex/名稱.json`，適合重複發送同一張卡片。
 - **即時預覽**：輸入後馬上看到排版結果和實際送出的 Flex JSON，格式錯誤會直接提示。
+- **電腦也能發**：在電腦瀏覽器打開，登入 LINE 後就能直接分享，不用手機。
 - **AI 也能操作**：頁面寫有給 AI agent 的操作說明，AI 可以填好內容、確認預覽，但選收件人和送出這一步一定留給人。
 
 ## 使用方式
 
-1. 在手機 LINE 裡打開 `https://liff.line.me/<LIFF ID>`。
+1. 打開 `https://liff.line.me/<LIFF ID>`：
+   - **手機**：在 LINE 裡點開（例如先把網址傳到任一聊天室再點）。
+   - **電腦**：用 Chrome 等瀏覽器打開，頁面會先導去 LINE 登入（帳號密碼或掃 QR code），登入後回到工具頁。
 2. 貼上 Markdown 或 Flex JSON，確認預覽。
 3. 按「分享卡片」，選收件人、送出。對方會在聊天室直接看到卡片，不是連結。
+
+### 搭配 Claude Code／Codex
+
+用電腦發卡片時，可以整段交給 AI：
+
+1. 跟 AI 描述卡片內容，請它產生 Flex JSON。
+2. 有瀏覽器操作能力的 AI（例如 Claude Code 的 Claude in Chrome）可以直接打開工具頁、把 JSON 填進去、確認預覽沒有錯誤。
+3. 你按「分享卡片」，選收件人、送出。
+
+常發的卡片也可以請 AI 存成 `flex/名稱.json` 並 push，之後打開 `https://liff.line.me/<LIFF ID>?f=名稱` 就會直接載入。
 
 ## 檔案
 
@@ -61,6 +74,12 @@ LINE App 本身不能讓個人帳號發 Flex Message，只能透過 LIFF 小程�
 - 依 LINE 官方文件，這類訊息看起來就像使用者本人送出。
 - 聊天列表和通知只顯示 `altText`，要點進聊天室才看得到卡片。
 
+### 電腦瀏覽器（2026-11-12）
+
+- 在電腦 Chrome 打開 `https://liff.line.me/<LIFF ID>`，用 `liff.login()` 登入 LINE 後，`shareTargetPicker` 可以正常使用。
+- 選收件人視窗會在瀏覽器裡跳出，送出後對方一樣直接看到卡片。
+- 由 Claude Code 透過 Claude in Chrome 填入 Flex JSON、人按分享並送出，實測成功。
+
 ### 按鈕動作的限制
 
 LINE 官方文件寫明：用 `shareTargetPicker` 分享 Flex 時，按鈕只能用「開網址」這一種動作。
@@ -82,3 +101,22 @@ LINE 官方文件寫明：用 `shareTargetPicker` 分享 Flex 時，按鈕只能
 - 單則訊息最多 12 張泡泡、約 30KB；altText 最多 400 字；按鈕文字最多 20 字。
 - channel 預設是開發中狀態，只有管理員和測試人員能打開這個小程式；收件人不需要任何設定。
 - LINE 官方建議新做的 LIFF 改做成 LINE MINI App，兩者將整合（2025-02-12 公告）。目前掛在 LINE Login channel 上仍可使用。
+
+## 需要全自動定時發送？
+
+個人帳號的 `shareTargetPicker` 每次都要本人選收件人、按送出，不能排程自動發；用程式去點選人畫面，等於把個人帳號當機器人，有違反 LINE 使用條款的風險。
+
+需要每週固定通知之類的全自動發送，要改用 LINE 官方帳號（Messaging API）。官方帳號的訊息額度是照「收到的人數」計算，人多的群組免費額度很快就會用完。省額度的做法：
+
+| 發送方式 | 計入額度？ |
+|---|---|
+| 主動發送（push／multicast／broadcast） | ✅ 計入，發到群組依人數計算 |
+| 回覆訊息（reply，用 webhook 收到的 `replyToken`） | ❌ 不計入 |
+
+回覆訊息一樣可以送 Flex 卡片（一次最多 5 則），卡片格式和這個工具用的 Flex JSON 相同，按鈕也能用 `postback` 等全部動作。可以設計成：群裡有人打關鍵字，或某個時段第一則訊息出現時，機器人用回覆送出通知卡片。限制是一定要有人先說話，而且 `replyToken` 很快會過期，要盡快回覆。
+
+| 方法 | 自動 | 費用 | 發送者 |
+|---|---|---|---|
+| 本工具（個人帳號） | 半自動，人按送出 | 免費 | 你本人 |
+| 官方帳號 reply | 有人說話就自動回 | 免費 | 官方帳號 |
+| 官方帳號 push | 全自動定時 | 超過免費額度要付費 | 官方帳號 |
