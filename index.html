@@ -298,8 +298,8 @@
     $("md").addEventListener("input", refresh);
     try { await liff.init({ liffId: LIFF_ID }); }
     catch (e) { status("LIFF 初始化失敗：" + e.message); return; }
-    if (!liff.isInClient() && !liff.isLoggedIn()) { status("請在 LINE 裡打開這個頁面才能分享。預覽仍可使用。"); return; }
-    if (!liff.isLoggedIn()) { liff.login(); return; }
+    // 在電腦或手機的一般瀏覽器打開時，先導去 LINE 登入，登入後就能直接分享
+    if (!liff.isLoggedIn()) { status("正在前往 LINE 登入…"); liff.login(); return; }
     if (!liff.isApiAvailable("shareTargetPicker")) {
       status("這個環境不支援分享功能。請在 LINE 裡打開，並確認 LIFF 設定已開啟 Share target picker。"); return;
     }
